@@ -1,12 +1,12 @@
 // getUsers button 
-document.getElementById("btn-users").addEventListener('click', getUsers);
+// document.getElementById("btn-users").addEventListener('click', getUsers);
 
-function getUsers() {
-  fetch("http://localhost:3000/")
-  .then((res)=> res.json())
-  .then((data) => console.log(data))
-  .catch((err)=> console.log(err))
-}
+// function getUsers() {
+//   fetch("http://localhost:3000/users/")
+//   .then((res)=> res.json())
+//   .then((data) => console.log(data))
+//   .catch((err)=> console.log(err))
+// }
 
 
 // Fetch method implementation:
@@ -28,4 +28,31 @@ async function fetchData(route = '', data = {}, methodType) {
   } else {
     throw await response.json();
   }
+}
+
+// user class
+class User {
+  constructor(userName, password, fullName) {
+    this.userName = userName;
+    this.password = password;
+    this.fullName = fullName;
+  }
+
+  getUsername() {
+    return this.userName;
+  }
+}
+
+// grab the form, add event listener
+let loginForm = document.getElementById("login-form");
+if(loginForm) loginForm.addEventListener('submit', login);
+
+function login(e) {
+  e.preventDefault();
+
+  let userName = document.getElementById("username").value;
+  let password = document.getElementById("pswd").value;
+  let user = new User(userName, password);
+
+  console.log(user);
 }

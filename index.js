@@ -1,26 +1,9 @@
 const express = require('express');
 const app = express();
 
-// const userRoutes = require('./server/routes/user');
-// "database" as object literal
-const users = [
-  {
-    userId: 12345,
-    userName: "cathy123"
-  },
-  {
-    userId: 55555,
-    userName: "fredburger"
-  },
-  {
-    userId: 23412,
-    userName: "bobbyjones"
-  }
-];
+const userRoutes = require('./server/routes/user');
 
-function getAllUsers() {
-  return users;
-}
+app.use(express.json());
 
 //CORS middleware
 app.use(function(req, res, next) {
@@ -30,22 +13,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-// app.use("/users", userRoutes);
-
-// router
-const router = express.Router();
-
-router.get('/', async (req, res) => {
-  try {
-    const users = await getAllUsers();
-    console.log(users);
-    res.send(users);
-  } catch(err) {
-    res.status(401).send({message: err.message});
-  }
-})
-
-app.use('/', router);
+app.use("/users", userRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server started on port ${PORT}!`));
