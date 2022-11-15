@@ -54,5 +54,13 @@ function login(e) {
   let password = document.getElementById("pswd").value;
   let user = new User(userName, password);
 
-  console.log(user);
+  fetchData("/users/login", user, "POST")
+  .then((data) => {
+    console.log(data);
+    window.location.href = "bmi.html";
+  })
+  .catch((err) => {
+    console.log(`Error!!! ${err.message}`)
+  }) 
+
 }
