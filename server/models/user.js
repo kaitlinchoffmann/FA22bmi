@@ -13,19 +13,23 @@ async function createTable() {
 }
 createTable();
 
-async function registerUser() {
-  const sql = `INSERT INTO users
-    (userName, userHeight, userWeight, password)
-    VALUES ("bobby", 64, 120, "password");
+async function register(user) {
+  let cUser = await getUser(user.userName);
+  if(cUser.length > 0) throw Error("Username already in use");
+
+  const sql = `INSERT INTO users (userName, password)
+    VALUES ("${user.userName}", "${user.password}");
   `
   await con.query(sql);
+  return await login(user);
 }
 
 async function getAllUsers() {
    const sql = `SELECT * FROM users;`;
    let users = await con.query(sql);
-   console.log(users);
+   console.log(users)
 }
+
 getAllUsers();
 
 async function getUser(userName) {
@@ -55,4 +59,4 @@ let cathy = {
 login(cathy);
 */
 
-module.exports = { getAllUsers, login };
+module.exports = { getAllUsers, login, register };
