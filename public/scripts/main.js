@@ -43,7 +43,7 @@ class User {
   }
 }
 
-// grab the form, add event listener
+// login functionality
 let loginForm = document.getElementById("login-form");
 if(loginForm) loginForm.addEventListener('submit', login);
 
@@ -56,11 +56,53 @@ function login(e) {
 
   fetchData("/users/login", user, "POST")
   .then((data) => {
-    console.log(data);
+    setCurrentUser(data);
     window.location.href = "bmi.html";
   })
   .catch((err) => {
     console.log(`Error!!! ${err.message}`)
   }) 
-
 }
+ 
+// register functionality
+let regForm = document.getElementById("reg-form");
+if(regForm) regForm.addEventListener('submit', register);
+
+function register(e) {
+  e.preventDefault();
+
+  let userName = document.getElementById("username").value;
+  let password = document.getElementById("pswd").value;
+  let user = new User(userName, password);
+
+  fetchData("/users/register", user, "POST")
+  .then((data) => {
+    setCurrentUser(data);
+    window.location.href = "bmi.html";
+  })
+  .catch((err) =>{
+    console.log(err);
+  })
+}
+
+// logout event listener
+let logout = document.getElementById("logout-btn");
+if(logout) logout.addEventListener('click', removeCurrentUser)
+
+// stateful mechanism for user
+// logging in a user
+function setCurrentUser(user) {
+  localStorage.setItem('user', JSON.stringify(user));
+}
+
+// getting current user function
+// FIX this next class
+function getCurrentUser() {
+  return JSON.parse(localStorage.getItem('user'));
+}
+
+// logout function for current user
+function removeCurrentUser() {
+  localStorage.removeItem('user')
+}
+
