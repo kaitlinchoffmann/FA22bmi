@@ -101,6 +101,9 @@ function getCurrentUser() {
   return JSON.parse(localStorage.getItem('user'));
 }
 
+let currentUser = getCurrentUser();
+console.log(currentUser);
+
 // logout function for current user
 function removeCurrentUser() {
   localStorage.removeItem('user')
