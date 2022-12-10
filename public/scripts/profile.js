@@ -1,4 +1,6 @@
-import { getCurrentUser, fetchData, removeCurrentUser } from "./main.js";
+import { 
+  getCurrentUser, fetchData, removeCurrentUser, setCurrentUser
+} from "./main.js";
 
 let user = getCurrentUser(); 
 if(!user) window.location.href = "login.html";
@@ -28,7 +30,8 @@ function deleteAccount() {
       removeCurrentUser();
     })
     .catch((err) => {
-      console.log(err)
+      let p = document.querySelector('.error');
+      p.innerHTML = err.message;
     })
   } 
 }
@@ -44,9 +47,11 @@ function editUser(e) {
 
   fetchData("/users/edit", user, "PUT")
   .then((data) => {
-    console.log(data);
+    setCurrentUser(data)
+    window.location.href = "profile.html"
   })
-  .catch((err)=>{
-
+  .catch((err)=> {
+    let p = document.querySelector('.error');
+    p.innerHTML = err.message;
   })
 }
